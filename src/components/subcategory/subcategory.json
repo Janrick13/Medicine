@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_subcategory_subcategories",
+  "info": {
+    "displayName": "Subcategory"
+  },
+  "options": {},
+  "attributes": {
+    "SubcatDesc": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}
