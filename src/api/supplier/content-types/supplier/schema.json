@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "suppliers",
+  "info": {
+    "singularName": "supplier",
+    "pluralName": "suppliers",
+    "displayName": "Supplier"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "SupplierName": {
+      "type": "string"
+    },
+    "ContactPerson": {
+      "type": "string"
+    },
+    "PhoneNumber": {
+      "type": "string"
+    },
+    "EmailAddress": {
+      "type": "email"
+    },
+    "LicenseNumber": {
+      "type": "string"
+    },
+    "purchase_order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::purchase-order.purchase-order",
+      "mappedBy": "supplier"
+    }
+  }
+}

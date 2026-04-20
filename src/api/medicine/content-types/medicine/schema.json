@@ -35,6 +35,18 @@
       "relation": "manyToOne",
       "target": "api::medicine-category.medicine-category",
       "inversedBy": "medicines"
+    },
+    "stock_inventory": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::stock-inventory.stock-inventory",
+      "mappedBy": "medicine"
+    },
+    "purchase_order_line": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::purchase-order-line.purchase-order-line",
+      "mappedBy": "medicine"
     }
   }
 }

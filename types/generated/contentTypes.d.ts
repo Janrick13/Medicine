@@ -496,7 +496,161 @@ export interface ApiMedicineMedicine extends Struct.CollectionTypeSchema {
       'api::medicine-category.medicine-category'
     >;
     publishedAt: Schema.Attribute.DateTime;
+    purchase_order_line: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::purchase-order-line.purchase-order-line'
+    >;
+    stock_inventory: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::stock-inventory.stock-inventory'
+    >;
     Strength: Schema.Attribute.Integer & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPurchaseOrderLinePurchaseOrderLine
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'purchase_order_lines';
+  info: {
+    displayName: 'Purchase_Order_Line';
+    pluralName: 'purchase-order-lines';
+    singularName: 'purchase-order-line';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    LineTotal: Schema.Attribute.Decimal;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::purchase-order-line.purchase-order-line'
+    > &
+      Schema.Attribute.Private;
+    medicine: Schema.Attribute.Relation<'oneToOne', 'api::medicine.medicine'>;
+    publishedAt: Schema.Attribute.DateTime;
+    purchase_order: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::purchase-order.purchase-order'
+    >;
+    QuantityOrdered: Schema.Attribute.Integer;
+    ReceivedStatus: Schema.Attribute.Boolean;
+    UnitPriceAtOrder: Schema.Attribute.Decimal;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPurchaseOrderPurchaseOrder
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'purchase_orders';
+  info: {
+    displayName: 'Purchase_Order';
+    pluralName: 'purchase-orders';
+    singularName: 'purchase-order';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::purchase-order.purchase-order'
+    > &
+      Schema.Attribute.Private;
+    OrderDate: Schema.Attribute.Date;
+    PaymentStatus: Schema.Attribute.Enumeration<
+      ['Paid', 'Pending', 'Cancelled']
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    purchase_order_line: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::purchase-order-line.purchase-order-line'
+    >;
+    ReceivedDate: Schema.Attribute.Date;
+    supplier: Schema.Attribute.Relation<'oneToOne', 'api::supplier.supplier'>;
+    TotalAmount: Schema.Attribute.Decimal;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiStockInventoryStockInventory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'stock_inventories';
+  info: {
+    displayName: 'Stock_Inventory';
+    pluralName: 'stock-inventories';
+    singularName: 'stock-inventory';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    BatchNumber: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Expirydate: Schema.Attribute.Date;
+    LastRestockDate: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::stock-inventory.stock-inventory'
+    > &
+      Schema.Attribute.Private;
+    medicine: Schema.Attribute.Relation<'oneToOne', 'api::medicine.medicine'>;
+    publishedAt: Schema.Attribute.DateTime;
+    QuantityOnHand: Schema.Attribute.Integer;
+    StorageLocation: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSupplierSupplier extends Struct.CollectionTypeSchema {
+  collectionName: 'suppliers';
+  info: {
+    displayName: 'Supplier';
+    pluralName: 'suppliers';
+    singularName: 'supplier';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ContactPerson: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    EmailAddress: Schema.Attribute.Email;
+    LicenseNumber: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::supplier.supplier'
+    > &
+      Schema.Attribute.Private;
+    PhoneNumber: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    purchase_order: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::purchase-order.purchase-order'
+    >;
+    SupplierName: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1016,6 +1170,10 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::medicine-category.medicine-category': ApiMedicineCategoryMedicineCategory;
       'api::medicine.medicine': ApiMedicineMedicine;
+      'api::purchase-order-line.purchase-order-line': ApiPurchaseOrderLinePurchaseOrderLine;
+      'api::purchase-order.purchase-order': ApiPurchaseOrderPurchaseOrder;
+      'api::stock-inventory.stock-inventory': ApiStockInventoryStockInventory;
+      'api::supplier.supplier': ApiSupplierSupplier;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
